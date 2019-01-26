@@ -142,6 +142,15 @@
     <property name="title">
      <string>设置(&amp;S)</string>
     </property>
+    <widget class="QMenu" name="menu_P">
+     <property name="title">
+      <string>皮肤(&amp;P)</string>
+     </property>
+     <addaction name="actionSkinBlack"/>
+     <addaction name="actionSkinWhite"/>
+     <addaction name="actionSkinBlue"/>
+    </widget>
+    <addaction name="menu_P"/>
    </widget>
    <addaction name="menu_F"/>
    <addaction name="menu_S"/>
@@ -155,6 +164,36 @@
   <action name="action_A">
    <property name="text">
     <string>关于(&amp;A)</string>
+   </property>
+  </action>
+  <action name="actionSkinBlack">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>黑色</string>
+   </property>
+  </action>
+  <action name="actionSkinWhite">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>白色</string>
+   </property>
+  </action>
+  <action name="actionSkinBlue">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>浅蓝色</string>
    </property>
   </action>
  </widget>

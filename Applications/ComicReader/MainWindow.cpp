@@ -13,6 +13,7 @@
 #include <QModelIndexList>
 #include <QPainter>
 #include <QScrollBar>
+#include <QActionGroup>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -65,17 +66,14 @@ void MainWindow::initListView()
 
 void MainWindow::initStyle()
 {
-    //加载样式表
-    //QFile file(":/qss/psblack.css");
-    //QFile file(":/qss/flatwhite.css");
-    QFile file(":/qss/lightblue.css");
-    if (file.open(QFile::ReadOnly)) {
-        QString qss = QLatin1String(file.readAll());
-        QString paletteColor = qss.mid(20, 7);
-        qApp->setPalette(QPalette(QColor(paletteColor)));
-        qApp->setStyleSheet(qss);
-        file.close();
-    }
+    m_pSkinActionGroup = new QActionGroup(this);
+    m_pSkinActionGroup->addAction(ui->actionSkinBlack);
+    m_pSkinActionGroup->addAction(ui->actionSkinWhite);
+    m_pSkinActionGroup->addAction(ui->actionSkinBlue);
+
+    connect(m_pSkinActionGroup, &QActionGroup::triggered, this, &MainWindow::onSkinActionTriggered);
+
+    onSkinActionTriggered(ui->actionSkinBlue);
 }
 
 void MainWindow::initTranslator()
@@ -107,9 +105,26 @@ void MainWindow::showChild(const QModelIndex &index)
     }
 }
 
-void MainWindow::setAddressPath(const QModelIndex &index)
+void MainWindow::onSkinActionTriggered(QAction *pAction)
 {
+    QFile file;
+    if(pAction == ui->actionSkinBlack) {
+        file.setFileName(":/qss/psblack.css");
+    }
+    else if(pAction == ui->actionSkinWhite) {
+        file.setFileName(":/qss/flatwhite.css");
+    }
+    else if(pAction == ui->actionSkinBlue) {
+        file.setFileName(":/qss/lightblue.css");
+    }
 
+    if (file.open(QFile::ReadOnly)) {
+        QString qss = QLatin1String(file.readAll());
+        QString paletteColor = qss.mid(20, 7);
+        qApp->setPalette(QPalette(QColor(paletteColor)));
+        qApp->setStyleSheet(qss);
+        file.close();
+    }
 }
 
 void MainWindow::on_btnRootPath_clicked()

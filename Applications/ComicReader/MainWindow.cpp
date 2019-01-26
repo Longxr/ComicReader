@@ -137,11 +137,13 @@ void MainWindow::on_btnRootPath_clicked()
 
     if(strDir.isEmpty()) {
         QMessageBox::warning(this, tr("警告"), tr("根路径不能为空"));
+        return;
     }
 
     QFileInfo infoDir(strDir);
     if(!infoDir.isDir()) {
         QMessageBox::warning(this, tr("警告"), tr("根路径不合法"));
+        return;
     }
 
     SetRootPath(strDir);

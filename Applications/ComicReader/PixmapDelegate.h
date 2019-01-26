@@ -7,16 +7,11 @@ class PixmapDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 public:
-    PixmapDelegate(QObject *parent = 0);
+    PixmapDelegate(QObject *parent = nullptr);
     ~PixmapDelegate();
-
-    void SetPageSize(const QSize& size);
 
     void paint(QPainter * painter,const QStyleOptionViewItem & option,const QModelIndex & index) const;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const;
-
-private:
-    QSize m_pageSize;
 };
 
 #endif // PIXMAPDELEGATE_H

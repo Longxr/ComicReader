@@ -15,7 +15,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 private slots:
@@ -28,13 +28,7 @@ private slots:
     void setAddressPath(const QModelIndex &index);
 
     void on_btnRootPath_clicked();
-
     void on_action_C_triggered();
-
-    void on_spinBoxPageWidth_valueChanged(int width);
-
-    void on_spinBoxPageHeight_valueChanged(int height);
-
     void on_spinBoxScrollDistance_valueChanged(int distance);
 
 private:
@@ -43,9 +37,9 @@ private:
 private:
     Ui::MainWindow *ui;
 
-    QString m_currentDirPath;
-    PixFileSystemModel *m_pPixModel;
-    PixmapDelegate *m_pPixDelegate;
+    QString             m_currentDirPath;
+    PixFileSystemModel* m_pPixModel;
+    PixmapDelegate*     m_pPixDelegate;
 };
 
 #endif // MAINWINDOW_H

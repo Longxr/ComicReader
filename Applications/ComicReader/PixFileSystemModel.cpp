@@ -29,30 +29,14 @@ int PixFileSystemModel::columnCount(const QModelIndex &) const
 
 QVariant PixFileSystemModel::data( const QModelIndex& index, int role ) const
 {
-    QFileInfo info = PixFileSystemModel::fileInfo(index);
-
     if(PixFileSystemModel::PixmapRole == role) {
+        QFileInfo info = PixFileSystemModel::fileInfo(index);
         if(info.isFile())
         {
             if(QString::compare(info.suffix(), "jpg", Qt::CaseInsensitive) == 0 ||
                QString::compare(info.suffix(), "png", Qt::CaseInsensitive) == 0 ){
                 return QPixmap(info.absoluteFilePath());
             }
-        }
-        else{
-            return QPixmap();
-        }
-    }
-    else if(PixFileSystemModel::PixSizeRole == role) {
-        if(info.isFile())
-        {
-            if(QString::compare(info.suffix(), "jpg", Qt::CaseInsensitive) == 0 ||
-               QString::compare(info.suffix(), "png", Qt::CaseInsensitive) == 0 ){
-                return QPixmap(info.absoluteFilePath()).size();
-            }
-        }
-        else{
-            return QSize();
         }
     }
     else if(Qt::TextAlignmentRole == role) {
@@ -64,8 +48,7 @@ QVariant PixFileSystemModel::data( const QModelIndex& index, int role ) const
 //        font.setBold(true);
 //        return font;
 //    }
-    else {
-        return QFileSystemModel::data(index, role);
-    }
+
+    return QFileSystemModel::data(index, role);
 }
 

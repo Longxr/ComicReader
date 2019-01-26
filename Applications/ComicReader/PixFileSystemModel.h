@@ -13,7 +13,7 @@ public:
         PixSizeRole = Qt::UserRole + 5,
     };
 
-    explicit PixFileSystemModel(QObject *parent = 0);
+    explicit PixFileSystemModel(QObject *parent = nullptr);
     ~PixFileSystemModel();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;

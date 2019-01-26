@@ -14,8 +14,6 @@
 #include <QPainter>
 #include <QScrollBar>
 
-#include "PageSizeSetDlg.h"
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -50,7 +48,7 @@ void MainWindow::initTreeView()
     ui->treeView->setModel(m_pPixModel);
     ui->treeView->expandAll();
 
-    connect(ui->treeView, &QTreeView::doubleClicked, this, showChild);
+    connect(ui->treeView, &QTreeView::doubleClicked, this, &MainWindow::showChild);
 }
 
 void MainWindow::initListView()
@@ -149,16 +147,6 @@ void MainWindow::SetRootPath(const QString &path)
 void MainWindow::on_action_C_triggered()
 {
     close();
-}
-
-void MainWindow::on_spinBoxPageWidth_valueChanged(int width)
-{
-    m_pPixDelegate->SetPageSize(QSize(width, ui->spinBoxPageHeight->value()));
-}
-
-void MainWindow::on_spinBoxPageHeight_valueChanged(int height)
-{
-    m_pPixDelegate->SetPageSize(QSize(ui->spinBoxPageWidth->value(), height));
 }
 
 void MainWindow::on_spinBoxScrollDistance_valueChanged(int distance)

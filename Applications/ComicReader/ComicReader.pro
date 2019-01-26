@@ -20,18 +20,15 @@ INCLUDEPATH         += $$PWD
 SOURCES             += main.cpp \
     PixmapDelegate.cpp \
     PixFileSystemModel.cpp \
-    PageSizeSetDlg.cpp \
     MainWindow.cpp
 SOURCES             +=
 
 HEADERS             += \
     PixmapDelegate.h \
     PixFileSystemModel.h \
-    PageSizeSetDlg.h \
     MainWindow.h
 
 FORMS               += \
-    PageSizeSetDlg.ui \
     MainWindow.ui
 
 RESOURCES           += other/qss.qrc

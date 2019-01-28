@@ -1,7 +1,7 @@
 TEMPLATE = subdirs
 CONFIG += ordered
 
-SUBDIRS += \
+SUBDIRS += QLib7z \
 
 
 

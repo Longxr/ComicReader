@@ -2,8 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QLib7z/include/lib7z_facade.h>
-#include <QLib7z/include/init.h>
 
 namespace Ui {
 class MainWindow;
@@ -22,9 +20,6 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-
-    Lib7z::ExtractItemJob* m_pExtractItemJob;
-    QFile* m_p7zFile;
 };
 
 #endif // MAINWINDOW_H

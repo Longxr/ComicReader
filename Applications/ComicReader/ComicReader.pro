@@ -15,18 +15,22 @@ include(./../../Path.pri)
 
 win32:RC_FILE       = other/main.rc
 
-INCLUDEPATH         += $$PWD
+INCLUDEPATH += $$PWD/../../Libraries
+
+LIBS += -L$${DESTDIR} -lQLib7z
 
 SOURCES             += main.cpp \
     PixmapDelegate.cpp \
     PixFileSystemModel.cpp \
-    MainWindow.cpp
+    MainWindow.cpp \
+    ExtractArchiveManager.cpp
 SOURCES             +=
 
 HEADERS             += \
     PixmapDelegate.h \
     PixFileSystemModel.h \
-    MainWindow.h
+    MainWindow.h \
+    ExtractArchiveManager.h
 
 FORMS               += \
     MainWindow.ui

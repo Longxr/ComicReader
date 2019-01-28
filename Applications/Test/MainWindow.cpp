@@ -17,15 +17,5 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    Lib7z::init();
 
-    QString filePath = QCoreApplication::applicationDirPath() + "/BiuBiuBiu.7z";
-    qDebug() << filePath;
-
-    qDebug() << Lib7z::isSupportedArchive(QCoreApplication::applicationDirPath() + "/invaild.7z");
-    qDebug() << Lib7z::isSupportedArchive(filePath);
-
-    QFile file(filePath);
-    file.open(QFile::ReadOnly);
-    Lib7z::extractArchive(&file,QDir::currentPath());
 }

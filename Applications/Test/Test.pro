@@ -18,8 +18,6 @@ include(./../../Path.pri)
 #library
 INCLUDEPATH += $$PWD/../../Libraries
 
-LIBS += -L$${DESTDIR} -lQLib7z
-
 SOURCES += main.cpp\
         MainWindow.cpp
 

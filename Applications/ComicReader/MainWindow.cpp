@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
+    m_pExtractArchiveManager = new ExtractArchiveManager(this);
+
     QString rootPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     m_pPixModel = new PixFileSystemModel(this);
     m_pPixDelegate = new PixmapDelegate(this);
@@ -49,7 +51,7 @@ void MainWindow::initTreeView()
     ui->treeView->setModel(m_pPixModel);
     ui->treeView->expandAll();
 
-    connect(ui->treeView, &QTreeView::doubleClicked, this, &MainWindow::showChild);
+    connect(ui->treeView, &QTreeView::doubleClicked, this, &MainWindow::onShowComic);
 }
 
 void MainWindow::initListView()
@@ -89,19 +91,22 @@ void MainWindow::initTranslator()
     qApp->installTranslator(translator2);
 }
 
-void MainWindow::showChild(const QModelIndex &index)
+void MainWindow::onShowComic(const QModelIndex &index)
 {
-    QString path = m_pPixModel->fileInfo(index).absoluteFilePath();//获取程序当前文件路径
-    qDebug() << "path:" << path;
+    QFileInfo info = m_pPixModel->fileInfo(index);
+    qDebug() << "path:" << info.absoluteFilePath();
 
     if (m_pPixModel->fileInfo(index).isDir())//判断是否为目录
     {
-        m_currentDirPath = path;
+        m_currentDirPath = info.absoluteFilePath();
         ui->listView->setRootIndex(m_pPixModel->index(m_currentDirPath));//进入目录
         ui->treeView->collapseAll();
     }
     else {
-        qDebug() << "select is not dir";
+        if("7z" == info.suffix() || "zip" == info.suffix() || "rar" == info.suffix()) {
+            qDebug() << "extract archive";
+            m_pExtractArchiveManager->startExtractArchive(info.absoluteFilePath());
+        }
     }
 }
 

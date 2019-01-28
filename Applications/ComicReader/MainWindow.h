@@ -6,6 +6,7 @@
 
 #include "PixFileSystemModel.h"
 #include "PixmapDelegate.h"
+#include "ExtractArchiveManager.h"
 
 namespace Ui {
 class MainWindow;
@@ -20,7 +21,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void showChild(const QModelIndex &index);
+    void onShowComic(const QModelIndex &index);
     void onSkinActionTriggered(QAction* pAction);
 
     void on_btnRootPath_clicked();
@@ -43,6 +44,8 @@ private:
     PixFileSystemModel* m_pPixModel;
     PixmapDelegate*     m_pPixDelegate;
     QActionGroup*       m_pSkinActionGroup;
+
+    ExtractArchiveManager* m_pExtractArchiveManager;
 };
 
 #endif // MAINWINDOW_H

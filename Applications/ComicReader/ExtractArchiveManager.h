@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QLib7z/include/lib7z_facade.h>
 #include <QLib7z/include/init.h>
+#include <quazip/JlCompress.h>
 
 class ExtractArchiveManager : public QObject
 {
@@ -35,6 +36,7 @@ private:
 private:
     QString     m_srcPath;
     QString     m_desPath;
+    QString     m_tempPath;
     FILE_TYPE   m_type;
 
     QFile*      m_pFile;

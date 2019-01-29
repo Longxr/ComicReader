@@ -9,31 +9,33 @@ ExtractArchiveManager::ExtractArchiveManager(QObject *parent) : QObject(parent)
 {
     m_p7ZExtract = nullptr;
     m_type = FILE_TYPE_NOT_SUPPORT;
-    m_desPath = QCoreApplication::applicationDirPath() + "/temp";
+    m_tempPath = QCoreApplication::applicationDirPath() + "/temp";
 
-    QDir desDir = QDir(m_desPath);
+    QDir desDir = QDir(m_tempPath);
 
     if(!desDir.exists()){
-        desDir.mkpath(m_desPath);
+        desDir.mkpath(m_tempPath);
     }
 }
 
 ExtractArchiveManager::~ExtractArchiveManager()
 {
-    QDir desDir(m_desPath);
+    QDir desDir(m_tempPath);
     desDir.removeRecursively();
 }
 
 void ExtractArchiveManager::startExtractArchive(const QString &path)
 {
     m_srcPath = path;
+    QFileInfo info(path);
 
     if(m_srcPath.isEmpty()) {
         qDebug() << "src path is empty";
         return;
     }
-
-    QFileInfo info(path);
+    else {
+        m_desPath = m_tempPath + "/" + info.baseName();
+    }
 
     if("7z" == info.suffix()) {
         m_type = FILE_TYPE_7Z;
@@ -90,7 +92,6 @@ void ExtractArchiveManager::extractArchive7z()
 
 //    QFile srcFile(m_srcPath);
 //    srcFile.open(QFile::ReadOnly);
-
     m_pFile = new QFile(m_srcPath, this);
     m_pFile->open(QFile::ReadOnly);
     m_p7ZExtract->setArchive(m_pFile);
@@ -101,7 +102,7 @@ void ExtractArchiveManager::extractArchive7z()
 
 void ExtractArchiveManager::extractArchiveZip()
 {
-
+    JlCompress::extractDir(m_srcPath, m_desPath);
 }
 
 void ExtractArchiveManager::extractArchiveRar()

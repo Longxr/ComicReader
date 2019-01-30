@@ -36,6 +36,11 @@ void ExtractArchiveManager::startExtractArchive(const QString &path)
     }
     else {
         m_desPath = m_tempPath + "/" + info.baseName();
+        QDir desDir = QDir(m_desPath);
+
+        if(!desDir.exists()){
+            desDir.mkpath(m_desPath);
+        }
     }
 
     if("7z" == info.suffix()) {
@@ -54,6 +59,11 @@ void ExtractArchiveManager::startExtractArchive(const QString &path)
         m_type = FILE_TYPE_NOT_SUPPORT;
         qDebug() << "file type is not support extract";
     }
+}
+
+QString ExtractArchiveManager::GetDesPath()
+{
+    return m_desPath;
 }
 
 void ExtractArchiveManager::onDealProgress(qint64 completed, qint64 total)

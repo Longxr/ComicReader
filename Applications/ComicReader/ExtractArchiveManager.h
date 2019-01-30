@@ -21,6 +21,7 @@ public:
     ~ExtractArchiveManager();
 
     void startExtractArchive(const QString& path);
+    QString GetDesPath();
 
 signals:
 

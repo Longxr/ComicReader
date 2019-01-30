@@ -30,12 +30,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     this->initForm();
 
-    SetRootPath(rootPath);
+    SetTreeRootPath(rootPath);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
+
+    SetListRootPath(m_currentDirPath);
 }
 
 void MainWindow::initForm()
@@ -106,6 +108,7 @@ void MainWindow::onShowComic(const QModelIndex &index)
         if("7z" == info.suffix() || "zip" == info.suffix() || "rar" == info.suffix()) {
             qDebug() << "extract archive";
             m_pExtractArchiveManager->startExtractArchive(info.absoluteFilePath());
+            SetListRootPath(m_pExtractArchiveManager->GetDesPath());
         }
     }
 }
@@ -151,21 +154,45 @@ void MainWindow::on_btnRootPath_clicked()
         return;
     }
 
-    SetRootPath(strDir);
+    SetTreeRootPath(strDir);
 }
 
-void MainWindow::SetRootPath(const QString &path)
+void MainWindow::SetTreeRootPath(const QString &path)
 {
     m_currentDirPath = path;
-
     m_pDirModel->setRootPath(path);
-    m_pPixModel->setRootPath(path);
 
     ui->editRootPath->setText(path);
     ui->treeView->setRootIndex(m_pDirModel->index(m_pDirModel->rootPath()));
-    ui->listView->setRootIndex(m_pPixModel->index(m_pPixModel->rootPath()));
-
     ui->treeView->setFocus();
+
+    SetListRootPath(path);
+}
+
+void MainWindow::SetListRootPath(const QString &path)
+{
+//    QString childPath = path;
+//    bool ret = true;
+
+//    QDir pixDir(path);
+//    if(!pixDir.exists()) {
+//        return;
+//    }
+
+//    do {
+//        QFileInfoList list = pixDir.entryInfoList();
+//        if(1 == list.count()) {
+//            ret = pixDir.cd(list.first().baseName());
+//        }
+//        else {
+//            break;
+//        }
+
+//    }while(true == ret);
+
+    qDebug() << "set list path: " << path;
+    m_pPixModel->setRootPath(path);
+    ui->listView->setRootIndex(m_pPixModel->index(m_pPixModel->rootPath()));
 }
 
 void MainWindow::on_action_C_triggered()

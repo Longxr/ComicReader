@@ -36,7 +36,8 @@ private:
     void initStyle();
     void initTranslator();
 
-    void SetRootPath(const QString& path);
+    void SetTreeRootPath(const QString& path);
+    void SetListRootPath(const QString& path);
 
 private:
     Ui::MainWindow *ui;

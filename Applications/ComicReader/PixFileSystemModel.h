@@ -14,7 +14,6 @@ public:
     };
 
     explicit PixFileSystemModel(QObject *parent = nullptr);
-    ~PixFileSystemModel();
 
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
 

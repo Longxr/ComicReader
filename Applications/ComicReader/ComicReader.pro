@@ -28,13 +28,15 @@ SOURCES += \
     PixmapDelegate.cpp \
     PixFileSystemModel.cpp \
     MainWindow.cpp \
-    ExtractArchiveManager.cpp
+    ExtractArchiveManager.cpp \
+    ComicDirModel.cpp
 
 HEADERS += \
     PixmapDelegate.h \
     PixFileSystemModel.h \
     MainWindow.h \
-    ExtractArchiveManager.h
+    ExtractArchiveManager.h \
+    ComicDirModel.h
 
 FORMS += \
     MainWindow.ui

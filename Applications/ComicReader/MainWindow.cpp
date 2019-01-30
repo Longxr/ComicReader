@@ -24,9 +24,9 @@ MainWindow::MainWindow(QWidget *parent) :
     m_pExtractArchiveManager = new ExtractArchiveManager(this);
 
     QString rootPath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    m_pDirModel = new ComicDirModel(this);
     m_pPixModel = new PixFileSystemModel(this);
     m_pPixDelegate = new PixmapDelegate(this);
-    m_pPixModel->setReadOnly(true);
 
     this->initForm();
 
@@ -48,7 +48,7 @@ void MainWindow::initForm()
 
 void MainWindow::initTreeView()
 {
-    ui->treeView->setModel(m_pPixModel);
+    ui->treeView->setModel(m_pDirModel);
     ui->treeView->expandAll();
 
     connect(ui->treeView, &QTreeView::doubleClicked, this, &MainWindow::onShowComic);
@@ -96,10 +96,10 @@ void MainWindow::onShowComic(const QModelIndex &index)
     QFileInfo info = m_pPixModel->fileInfo(index);
     qDebug() << "path:" << info.absoluteFilePath();
 
-    if (m_pPixModel->fileInfo(index).isDir())//判断是否为目录
+    if (m_pPixModel->fileInfo(index).isDir())
     {
         m_currentDirPath = info.absoluteFilePath();
-        ui->listView->setRootIndex(m_pPixModel->index(m_currentDirPath));//进入目录
+        ui->listView->setRootIndex(m_pPixModel->index(m_currentDirPath));
         ui->treeView->collapseAll();
     }
     else {
@@ -157,10 +157,12 @@ void MainWindow::on_btnRootPath_clicked()
 void MainWindow::SetRootPath(const QString &path)
 {
     m_currentDirPath = path;
+
+    m_pDirModel->setRootPath(path);
     m_pPixModel->setRootPath(path);
 
     ui->editRootPath->setText(path);
-    ui->treeView->setRootIndex(m_pPixModel->index(m_pPixModel->rootPath()));
+    ui->treeView->setRootIndex(m_pDirModel->index(m_pDirModel->rootPath()));
     ui->listView->setRootIndex(m_pPixModel->index(m_pPixModel->rootPath()));
 
     ui->treeView->setFocus();

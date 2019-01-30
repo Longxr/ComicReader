@@ -7,12 +7,13 @@
 PixFileSystemModel::PixFileSystemModel(QObject *parent) :
     QFileSystemModel(parent)
 {
+    setReadOnly(true);
 
-}
-
-PixFileSystemModel::~PixFileSystemModel()
-{
-
+//    setFilter(QDir::Files);
+    setNameFilterDisables(false);
+    QStringList filter;
+    filter << "*.png" << "*.jpg" << "*.bmp";
+    setNameFilters(filter);
 }
 
 int PixFileSystemModel::rowCount(const QModelIndex &parent) const
@@ -34,20 +35,12 @@ QVariant PixFileSystemModel::data( const QModelIndex& index, int role ) const
         if(info.isFile())
         {
             if(QString::compare(info.suffix(), "jpg", Qt::CaseInsensitive) == 0 ||
-               QString::compare(info.suffix(), "png", Qt::CaseInsensitive) == 0 ){
+               QString::compare(info.suffix(), "png", Qt::CaseInsensitive) == 0 ||
+               QString::compare(info.suffix(), "bmp", Qt::CaseInsensitive) == 0 ){
                 return QPixmap(info.absoluteFilePath());
             }
         }
     }
-    else if(Qt::TextAlignmentRole == role) {
-        return QVariant(Qt::AlignLeft | Qt::AlignVCenter);
-    }
-//    else if(Qt::FontRole == role) {
-//        QFont font;
-//        font.setPointSize(12);
-//        font.setBold(true);
-//        return font;
-//    }
 
     return QFileSystemModel::data(index, role);
 }

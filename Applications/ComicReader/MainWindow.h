@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QActionGroup>
 
+#include "ComicDirModel.h"
 #include "PixFileSystemModel.h"
 #include "PixmapDelegate.h"
 #include "ExtractArchiveManager.h"
@@ -41,6 +42,7 @@ private:
     Ui::MainWindow *ui;
 
     QString             m_currentDirPath;
+    ComicDirModel*      m_pDirModel;
     PixFileSystemModel* m_pPixModel;
     PixmapDelegate*     m_pPixDelegate;
     QActionGroup*       m_pSkinActionGroup;

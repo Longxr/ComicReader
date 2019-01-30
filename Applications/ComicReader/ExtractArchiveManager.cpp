@@ -3,6 +3,7 @@
 #include <QThreadPool>
 #include <QFileInfo>
 #include <QDir>
+#include <QProcess>
 #include <QDebug>
 
 ExtractArchiveManager::ExtractArchiveManager(QObject *parent) : QObject(parent)
@@ -107,5 +108,27 @@ void ExtractArchiveManager::extractArchiveZip()
 
 void ExtractArchiveManager::extractArchiveRar()
 {
+    QDir dir(m_desPath);
+    if(!dir.exists()) {
+        dir.mkpath(m_desPath);
+    }
 
+    QFileInfo exeInfo("UnRaR.exe");
+    if(!exeInfo.exists()) {
+        qDebug() << "Can't find UnRaR.exe, please add UnRaR.exe to current application dir path";
+        return;
+    }
+
+    QProcess pro;
+    QString t1 ="UnRaR.exe";
+    QStringList t2;
+    t2.append("x");
+    t2.append("-ibck");
+    t2.append("-y");
+    t2.append("-o+");
+    t2.append(m_srcPath);
+    t2.append(m_desPath);
+
+    int ret = pro.execute(t1,t2);
+    qDebug() << "process return ret: " << ret;
 }

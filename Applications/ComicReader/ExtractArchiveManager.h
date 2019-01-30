@@ -17,7 +17,7 @@ public:
         FILE_TYPE_RAR,
     };
 
-    explicit ExtractArchiveManager(QObject *parent = 0);
+    explicit ExtractArchiveManager(QObject *parent = nullptr);
     ~ExtractArchiveManager();
 
     void startExtractArchive(const QString& path);
@@ -34,12 +34,12 @@ private:
     void extractArchiveRar();
 
 private:
-    QString     m_srcPath;
-    QString     m_desPath;
-    QString     m_tempPath;
-    FILE_TYPE   m_type;
+    QString         m_srcPath;
+    QString         m_desPath;
+    QString         m_tempPath;
+    FILE_TYPE       m_type;
 
-    QFile*      m_pFile;
+    QFile*          m_pFile;
     Lib7z::ExtractItemJob* m_p7ZExtract;
 };
 

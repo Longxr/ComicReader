@@ -13,12 +13,15 @@ TEMPLATE    = app
 
 include(./../../Path.pri)
 
-win32:RC_FILE = other/main.rc
-
 INCLUDEPATH += $$PWD/../../Libraries
+INCLUDEPATH += $$THIRD_DIR
 
 LIBS += -L$${DESTDIR} -lQLib7z
 LIBS += -L$${DESTDIR} -lquazip
+
+win32: {
+    RC_FILE = other/main.rc
+}
 
 SOURCES += \
     main.cpp \

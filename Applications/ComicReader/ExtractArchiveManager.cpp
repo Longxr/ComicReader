@@ -3,14 +3,14 @@
 #include <QThreadPool>
 #include <QFileInfo>
 #include <QDir>
-#include <QProcess>
 #include <QDebug>
 
 ExtractArchiveManager::ExtractArchiveManager(QObject *parent) : QObject(parent)
 {
-    m_p7ZExtract = nullptr;
-    m_type = FILE_TYPE_NOT_SUPPORT;
-    m_tempPath = QCoreApplication::applicationDirPath() + "/temp";
+    m_p7ZExtract    = nullptr;
+    m_pProcess      = nullptr;
+    m_type          = FILE_TYPE_NOT_SUPPORT;
+    m_tempPath      = QCoreApplication::applicationDirPath() + "/temp";
 
     QDir desDir = QDir(m_tempPath);
 
@@ -79,6 +79,22 @@ void ExtractArchiveManager::onFinished()
     m_pFile->deleteLater();
 }
 
+void ExtractArchiveManager::onProcessFinished(int exitCode)
+{
+    qDebug() << "process result: " << exitCode;
+}
+
+void ExtractArchiveManager::onProcessOutput()
+{
+    QString msg = m_pProcess->readAllStandardOutput();
+    QStringList list = msg.split("\b\b\b\b");
+    QString strProgress = list.last();
+
+    if(strProgress.contains('%')) {
+        qDebug() << "progress :" << strProgress;
+    }
+}
+
 void ExtractArchiveManager::extractArchive7z()
 {
 //    Lib7z::init();
@@ -129,16 +145,23 @@ void ExtractArchiveManager::extractArchiveRar()
         return;
     }
 
-    QProcess pro;
+    if(nullptr == m_pProcess) {
+        m_pProcess = new QProcess(this);
+
+        connect(m_pProcess, &QProcess::readyReadStandardOutput, this, &ExtractArchiveManager::onProcessOutput);
+        connect(m_pProcess, static_cast<void (QProcess::*)(int)>(&QProcess::finished), this, &ExtractArchiveManager::onProcessFinished);
+
+    }
+
     QString t1 ="UnRaR.exe";
     QStringList t2;
-    t2.append("x");
-    t2.append("-ibck");
-    t2.append("-y");
-    t2.append("-o+");
+    t2.append("x");     //absolute path archive
+    t2.append("-ibck"); //background process
+    t2.append("-y");    //all choices yes
+    t2.append("-o+");   //coverage already exists
+    t2.append("-ep");   //exclude directories from names
     t2.append(m_srcPath);
     t2.append(m_desPath);
 
-    int ret = pro.execute(t1,t2);
-    qDebug() << "process return ret: " << ret;
+    m_pProcess->start(t1,t2);
 }

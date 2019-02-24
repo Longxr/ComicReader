@@ -2,6 +2,7 @@
 #define EXTRACTARCHIVEMANAGER_H
 
 #include <QObject>
+#include <QProcess>
 #include <QLib7z/include/lib7z_facade.h>
 #include <QLib7z/include/init.h>
 #include <quazip/JlCompress.h>
@@ -29,6 +30,9 @@ private slots:
     void onDealProgress(qint64 completed, qint64 total);
     void onFinished();
 
+    void onProcessFinished(int exitCode);
+    void onProcessOutput();
+
 private:
     void extractArchive7z();
     void extractArchiveZip();
@@ -42,6 +46,7 @@ private:
 
     QFile*          m_pFile;
     Lib7z::ExtractItemJob* m_p7ZExtract;
+    QProcess*       m_pProcess;
 };
 
 #endif // EXTRACTARCHIVEMANAGER_H
